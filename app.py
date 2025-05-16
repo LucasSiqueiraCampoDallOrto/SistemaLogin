@@ -9,6 +9,10 @@ class BackEnd():
             self.conn = sqlite3.connect("Sistema_cadastros.db")
             self.cursor = self.conn.cursor()
             print("Banco de Dados Conectado")
+    
+    def desconecta_db(self):
+        self.conn.close()
+        print("Banco de Dados Desconectado")
 
 class App(ctk.CTk, BackEnd):
     def __init__(self):
