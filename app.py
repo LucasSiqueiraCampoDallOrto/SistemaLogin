@@ -131,6 +131,10 @@ class App(ctk.CTk):
         self.senha_cadastro_entry.delete(0, tk.END)
         self.confirma_senha_entry.delete(0, tk.END)
         self.email_cadastro_entry.delete(0, tk.END)
+    
+    def limpa_entry_login(self):
+        self.username_login_entry.delete(0, tk.END)
+        self.senha_login_entry.delete(0, tk.END)
 
 if __name__ == "__main__":
     app = App()  # cria a janela
