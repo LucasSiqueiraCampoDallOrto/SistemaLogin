@@ -125,6 +125,12 @@ class App(ctk.CTk):
             "Century Gothic bold", 16), corner_radius=15, fg_color="#444", hover_color="#333", command=self.tela_de_login)
         # posiciona o botão de login
         self.voltar_tela_login.grid(row=7, column=0, padx=10, pady=10)
+    
+    def limpa_entry_cadastro(self):
+        self.username_cadastro_entry.delete(0, tk.END)
+        self.senha_cadastro_entry.delete(0, tk.END)
+        self.confirma_senha_entry.delete(0, tk.END)
+        self.email_cadastro_entry.delete(0, tk.END)
 
 if __name__ == "__main__":
     app = App()  # cria a janela
