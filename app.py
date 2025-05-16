@@ -10,6 +10,7 @@ class App(ctk.CTk):
         super().__init__()
         self.configurações_da_janela_principal()
         self.tela_de_login()
+        #FALTA COLOCAR TELA DE CADASTRO
     
     # Configurando a janela principal
     def configurações_da_janela_principal(self):
@@ -73,6 +74,57 @@ class App(ctk.CTk):
         self.button_cadastro = ctk.CTkButton(self.frame_login, width=300, text="CADASTRAR", font=("Century Gothic bold", 16), corner_radius=15, fg_color="green", hover_color="#050", command=self.tela_de_cadastro)
         # posiciona o botão de cadastro
         self.button_cadastro.grid(row=6, column=0, padx=10, pady=10)
+    
+    def tela_de_cadastro(self):
+        # Remover o formulário de Login
+        self.frame_login.place_forget()
+
+        # Criando o frame do formulário cadastro
+        self.frame_cadastro = ctk.CTkFrame(self, width=350, height=380)
+        self.frame_cadastro.place(x=350, y=10)
+
+        # Criando o título da Tela de Trabalho
+        # cria e configura o título
+        self.label_title = ctk.CTkLabel(self.frame_cadastro, text="Faça o seu Login", font=("Century Gothic bold", 22))  
+        self.label_title.grid(row=0, column=0, padx=10,pady=5)  # posiciona o título
+
+        # Criar os Widgets da Tela de Cadastro
+
+        # cria e configura o entry de usuário
+        self.username_cadastro_entry = ctk.CTkEntry(self.frame_cadastro, width=300, placeholder_text="Nome de Usuário", font=("Century Gothic bold", 16), corner_radius=15, border_color="blue")
+        self.username_cadastro_entry.grid(row=1, column=0, padx=10, pady=5)  # posiciona o entry de usuário
+
+        # cria e configura o entry de usuário
+        self.email_cadastro_entry = ctk.CTkEntry(self.frame_cadastro, width=300, placeholder_text="Email de Usuário", font=("Century Gothic bold", 16), corner_radius=15, border_color="blue")
+        # posiciona o entry de usuário
+        self.email_cadastro_entry.grid(row=2, column=0, padx=10, pady=5)
+
+        # cria e configura o entry de senha
+        self.senha_cadastro_entry = ctk.CTkEntry(self.frame_cadastro, width=300, placeholder_text="Senha de Usuário", font=("Century Gothic bold", 16), corner_radius=15, border_color="blue", show="*")
+        # posiciona o entry de senha
+        self.senha_cadastro_entry.grid(row=3, column=0, padx=10, pady=5)
+
+        # cria e configura o entry de senha
+        self.confirma_senha_entry = ctk.CTkEntry(self.frame_cadastro, width=300, placeholder_text="Confirme sua Senha", font=("Century Gothic bold", 16), corner_radius=15, border_color="blue", show="*")
+        # posiciona o entry de senha
+        self.confirma_senha_entry.grid(row=4, column=0, padx=10, pady=5)
+
+        # cria e configura o checkbox de ver a senha
+        self.ver_senha_cad = ctk.CTkCheckBox(self.frame_cadastro, text="Clique para ver a senha", font=("Century Gothic bold", 12), corner_radius=20, command=self.ver_senha_cadastro)
+        # posiciona o botão de ver senha
+        self.ver_senha_cad.grid(row=5, column=0, padx=10)
+
+        self.button_cadastrar_user = ctk.CTkButton(self.frame_cadastro, width=300, text="CADASTRAR", font=(
+            # cria e configura o botão de cadastro
+            "Century Gothic bold", 16), corner_radius=15, fg_color="green", hover_color="#050", command=self.cadastrar_usuario)
+        # posiciona o botão de cadastro
+        self.button_cadastrar_user.grid(row=6, column=0, padx=10, pady=5)
+
+        self.voltar_tela_login = ctk.CTkButton(self.frame_cadastro, width=300, text="Voltar a tela de Login", font=(
+            # cria e configura o botão de login
+            "Century Gothic bold", 16), corner_radius=15, fg_color="#444", hover_color="#333", command=self.tela_de_login)
+        # posiciona o botão de login
+        self.voltar_tela_login.grid(row=7, column=0, padx=10, pady=10)
 
 if __name__ == "__main__":
     app = App()  # cria a janela
