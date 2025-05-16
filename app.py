@@ -5,6 +5,10 @@ import sqlite3
 from tkinter import messagebox
 
 class BackEnd():
+    def conecta_db(self):  # função que conecta ao banco de dados (database)
+            self.conn = sqlite3.connect("Sistema_cadastros.db")
+            self.cursor = self.conn.cursor()
+            print("Banco de Dados Conectado")
 
 class App(ctk.CTk, BackEnd):
     def __init__(self):
