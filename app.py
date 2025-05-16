@@ -4,13 +4,14 @@ import tkinter as tk
 import sqlite3
 from tkinter import messagebox
 
+class BackEnd():
 
-class App(ctk.CTk):
+class App(ctk.CTk, BackEnd):
     def __init__(self):
         super().__init__()
         self.configurações_da_janela_principal()
         self.tela_de_login()
-        #FALTA COLOCAR TELA DE CADASTRO
+        self.cria_tabela()
     
     # Configurando a janela principal
     def configurações_da_janela_principal(self):
