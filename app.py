@@ -14,6 +14,23 @@ class BackEnd():
         self.conn.close()
         print("Banco de Dados Desconectado")
 
+    def cria_tabela(self):
+        self.conecta_db()
+
+        self.cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Usuarios(
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Username TEXT NOT NULL,
+                    Email TEXT NOT NULL,
+                    Senha TEXT NOT NULL,
+                    Confirma_Senha TEXT NOT NULL        
+                );            
+            """)
+
+        self.conn.commit()
+        print("Tabela Criado com sucesso")
+        self.desconecta_db()
+
 class App(ctk.CTk, BackEnd):
     def __init__(self):
         super().__init__()
