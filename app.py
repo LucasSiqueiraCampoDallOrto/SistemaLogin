@@ -98,6 +98,12 @@ class BackEnd():
             self.desconecta_db()
         self.limpa_entry_login() #Reseta o entry de login
 
+    def ver_senha_login(self):
+        if self.ver_senha.get(): #Se o checkbox for clicado, retornará TRUE
+            self.senha_login_entry.configure(show="")
+        else:
+            self.senha_login_entry.configure(show="*")
+
 class App(ctk.CTk, BackEnd):
     def __init__(self):
         super().__init__()
