@@ -37,39 +37,40 @@ class BackEnd():
         self.senha_cadastro = self.senha_cadastro_entry.get()
         self.confirma_senha_cadastro = self.confirma_senha_entry.get()
 
+        # Validações antes de qualquer operação no banco
+        if self.username_cadastro == "" or self.email_cadastro == "" or self.senha_cadastro == "" or self.confirma_senha_cadastro == "":
+            messagebox.showerror(title="Erro", message="Por favor, preencha corretamente todos os campos")
+            return
+
+        elif len(self.username_cadastro) < 4:
+            messagebox.showwarning(title="Erro", message="Nome de usuário deve possuir pelo menos 4 caracteres")
+            return
+
+        elif len(self.senha_cadastro) < 4:
+            messagebox.showwarning(title="Erro", message="Senha deve possuir pelo menos 4 caracteres")
+            return
+
+        elif self.senha_cadastro != self.confirma_senha_cadastro:
+            messagebox.showerror(title="Erro", message="As senhas não coincidem")
+            return
+
+        # Agora que validou, conecta ao banco
         self.conecta_db()
 
-        self.cursor.execute("""
-            INSERT INTO Usuarios (Username, Email, Senha, Confirma_Senha)
-            VALUES (?, ?, ?, ?)""", (self.username_cadastro, self.email_cadastro, self.senha_cadastro, self.confirma_senha_cadastro))
-        
         try:
+            self.cursor.execute("""
+                INSERT INTO Usuarios (Username, Email, Senha, Confirma_Senha)
+                VALUES (?, ?, ?, ?)""", (self.username_cadastro, self.email_cadastro, self.senha_cadastro, self.confirma_senha_cadastro))
 
-            #Verifica se tem algum campo não preenchido
-            if self.username_cadastro == "" or self.email_cadastro == "" or self.senha_cadastro == "" or self.confirma_senha_cadastro == "": 
-                messagebox.showerror(title="Error", message="Por favor, preencha corretamente todos os campos")
+            self.conn.commit()
+            messagebox.showinfo(title="Sistema de Login", message=f"Bem-vindo {self.username_cadastro} \n Dados cadastrados com sucesso")
+            self.desconecta_db()
+            self.limpa_entry_cadastro()
 
-            #Verifica se o nome de usuário tem ao menos 4 caracteres
-            elif len(self.username_cadastro) < 4:
-                messagebox.showwarning(title="Error", message="Nome de usuário deve possuir pelo menos 4 caracteres")
+        except Exception as e:
+            messagebox.showerror(title="Erro", message=f"Erro ao cadastrar usuário: {e}")
+            self.desconecta_db()
 
-            #Verifica se a senha tem ao menos 4 caracteres
-            elif len(self.senha_cadastro) < 4:
-                messagebox.showwarning(title="Error", message="Senha deve possuir pelo menos 4 caracteres")
-
-            #Verifica se as senhas são compatíveis
-            elif self.senha_cadastro != self.confirma_senha_cadastro:
-                messagebox.showerror(title="Error", message="As senhas não coincidem")
-
-            else: #Caso não identifique algum erro, os dados serão enviados ao banco de dados
-                self.conn.commit()
-                messagebox.showinfo(title="Sistema de Login", message=f"Bem-vindo {self.username_cadastro} \n Dados cadastrados com sucesso")
-                self.desconecta_db() #Encerra a conexão com o banco de dados
-                self.limpa_entry_cadastro()
-        
-        except:
-            messagebox.showerror(title="Error", message="Erro no processamento dos dados \n Tente Novamente")
-            self.desconecta_db() #Encerra a conexão com o banco de dados
 
     def verifica_login(self):
         self.username_login = self.username_login_entry.get()
