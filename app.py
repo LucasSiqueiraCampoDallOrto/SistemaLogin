@@ -71,6 +71,33 @@ class BackEnd():
             messagebox.showerror(title="Error", message="Erro no processamento dos dados \n Tente Novamente")
             self.desconecta_db() #Encerra a conexão com o banco de dados
 
+    def verifica_login(self):
+        self.username_login = self.username_login_entry.get()
+        self.senha_login = self.senha_login_entry.get()
+
+        self.conecta_db()
+
+        self.cursor.execute("""SELECT * FROM Usuarios WHERE (Username = ? AND Senha = ?)""", (self.username_login, self.senha_login))
+
+        self.verifica_dados = self.cursor.fetchone() # Pega a primeira linha da consulta na tabela usuarios
+
+        try:
+
+            #Verifica se os campos de login estão preenchidos
+            if self.username_login =="" or self.senha_login == "":
+                messagebox.showwarning(title="Error", message="Preencha corretamente todos campos")
+
+            #Verifica se o Nome de usuário e Senha existe no banco de dados
+            elif self.username_login in self.verifica_dados and self.senha_login in self.verifica_dados: 
+                messagebox.showinfo(title="Sucesso", message="Login realizado com êxito")
+                self.desconecta_db()
+                self.limpa_entry_login()
+
+        except:
+            messagebox.showerror(title="Error", message="Erro. Usuário não encontrado \n Novo Cliente? Cadastre-se")
+            self.desconecta_db()
+        self.limpa_entry_login() #Reseta o entry de login
+
 class App(ctk.CTk, BackEnd):
     def __init__(self):
         super().__init__()
