@@ -31,6 +31,46 @@ class BackEnd():
         print("Tabela Criado com sucesso")
         self.desconecta_db()
 
+    def cadastrar_usuario(self):
+        self.username_cadastro = self.username_cadastro_entry.get()
+        self.email_cadastro = self.email_cadastro_entry.get()
+        self.senha_cadastro = self.senha_cadastro_entry.get()
+        self.confirma_senha_cadastro = self.confirma_senha_entry.get()
+
+        self.conecta_db()
+
+        self.cursor.execute("""
+            INSERT INTO Usuarios (Username, Email, Senha, Confirma_Senha)
+            VALUES (?, ?, ?, ?)""", (self.username_cadastro, self.email_cadastro, self.senha_cadastro, self.confirma_senha_cadastro))
+        
+        try:
+
+            #Verifica se tem algum campo não preenchido
+            if self.username_cadastro == "" or self.email_cadastro == "" or self.senha_cadastro == "" or self.confirma_senha_cadastro == "": 
+                messagebox.showerror(title="Error", message="Por favor, preencha corretamente todos os campos")
+
+            #Verifica se o nome de usuário tem ao menos 4 caracteres
+            elif len(self.username_cadastro) < 4:
+                messagebox.showwarning(title="Error", message="Nome de usuário deve possuir pelo menos 4 caracteres")
+
+            #Verifica se a senha tem ao menos 4 caracteres
+            elif len(self.senha_cadastro) < 4:
+                messagebox.showwarning(title="Error", message="Senha deve possuir pelo menos 4 caracteres")
+
+            #Verifica se as senhas são compatíveis
+            elif self.senha_cadastro != self.confirma_senha_cadastro:
+                messagebox.showerror(title="Error", message="As senhas não coincidem")
+
+            else: #Caso não identifique algum erro, os dados serão enviados ao banco de dados
+                self.conn.commit()
+                messagebox.showinfo(title="Sistema de Login", message=f"Bem-vindo {self.username_cadastro} \n Dados cadastrados com sucesso")
+                self.desconecta_db() #Encerra a conexão com o banco de dados
+                self.limpa_entry_cadastro()
+        
+        except:
+            messagebox.showerror(title="Error", message="Erro no processamento dos dados \n Tente Novamente")
+            self.desconecta_db() #Encerra a conexão com o banco de dados
+
 class App(ctk.CTk, BackEnd):
     def __init__(self):
         super().__init__()
